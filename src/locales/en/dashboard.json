@@ -1,0 +1,16 @@
+{
+  "title": "Dashboard",
+  "welcome": "Hello, {name}",
+  "overview": "Overview",
+  "stats": {
+    "totalUsers": "Total Users",
+    "totalRevenue": "Total Revenue",
+    "totalOrders": "Total Orders",
+    "growthRate": "Growth Rate"
+  },
+  "charts": {
+    "revenue": "Monthly Revenue",
+    "users": "New Users"
+  },
+  "recentActivity": "Recent Activity"
+}
