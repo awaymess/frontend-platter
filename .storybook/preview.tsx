@@ -10,7 +10,7 @@ initialize({ onUnhandledRequest: 'bypass' });
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <ReduxProvider>
+      <ReduxProvider initialThemeMode="light" initialResolvedMode="light">
         <Story />
       </ReduxProvider>
     ),
