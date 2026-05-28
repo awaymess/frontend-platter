@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useSyncExternalStore } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { syncSystemTheme, initializeTheme } from '@/store/slices/themeSlice';
 import { LibThemeProvider } from '@awaymess/ui';
@@ -11,33 +10,26 @@ interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
-const subscribeHydration = () => () => {};
-const getClientHydrationSnapshot = () => true;
-const getServerHydrationSnapshot = () => false;
+function applyDocumentTheme(mode: 'light' | 'dark') {
+  const root = document.documentElement;
+  root.classList.remove('light', 'dark');
+  root.classList.add(mode);
+}
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const dispatch = useAppDispatch();
   const { mode, resolvedMode } = useAppSelector((state) => state.theme);
-  const pathname = usePathname();
-  const isHydrated = useSyncExternalStore(
-    subscribeHydration,
-    getClientHydrationSnapshot,
-    getServerHydrationSnapshot
-  );
-
-  const providerMode: 'light' | 'dark' = isHydrated ? resolvedMode : 'light';
+  const providerMode: 'light' | 'dark' = resolvedMode;
 
   // Initialize theme from localStorage on mount (client only)
   useEffect(() => {
     dispatch(initializeTheme());
   }, [dispatch]);
 
-  // After mount, sync clientMode from Redux + re-apply html class on route change
+  // Keep html class in sync with resolved theme
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(resolvedMode);
-  }, [resolvedMode, pathname]);
+    applyDocumentTheme(resolvedMode);
+  }, [resolvedMode]);
 
   // Listen for system theme changes
   useEffect(() => {
@@ -49,7 +41,6 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   }, [mode, dispatch]);
 
   return (
-    // suppressHydrationWarning: server renders 'light', inline script sets correct class before hydration
     <LibThemeProvider mode={providerMode}>
       <MuiThemeProvider
         theme={(outerTheme) =>

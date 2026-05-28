@@ -6,6 +6,12 @@ interface ThemeState {
   resolvedMode: 'light' | 'dark';
 }
 
+function persistThemeMode(mode: ThemeMode) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('theme-mode', mode);
+  document.cookie = `theme-mode=${mode}; path=/; max-age=31536000; samesite=lax`;
+}
+
 function getSystemTheme(): 'light' | 'dark' {
   if (typeof window === 'undefined') return 'light';
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -28,17 +34,13 @@ const themeSlice = createSlice({
     setThemeMode(state, action: PayloadAction<ThemeMode>) {
       state.mode = action.payload;
       state.resolvedMode = resolveMode(action.payload);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme-mode', action.payload);
-      }
+      persistThemeMode(action.payload);
     },
     toggleTheme(state) {
       const newMode = state.resolvedMode === 'light' ? 'dark' : 'light';
       state.mode = newMode;
       state.resolvedMode = newMode;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme-mode', newMode);
-      }
+      persistThemeMode(newMode);
     },
     syncSystemTheme(state) {
       if (state.mode === 'system') {
@@ -47,9 +49,17 @@ const themeSlice = createSlice({
     },
     initializeTheme(state) {
       if (typeof window !== 'undefined') {
-        const savedMode = (localStorage.getItem('theme-mode') as ThemeMode) || 'system';
+        const storageMode = localStorage.getItem('theme-mode');
+        const cookieMode = document.cookie
+          .split('; ')
+          .find((entry) => entry.startsWith('theme-mode='))
+          ?.split('=')[1];
+        const rawMode = storageMode || cookieMode || 'system';
+        const savedMode: ThemeMode =
+          rawMode === 'light' || rawMode === 'dark' || rawMode === 'system' ? rawMode : 'system';
         state.mode = savedMode;
         state.resolvedMode = resolveMode(savedMode);
+        persistThemeMode(savedMode);
       }
     },
   },

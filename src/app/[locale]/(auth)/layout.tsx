@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { AuthSettings } from './AuthSettings';
+import { AuthSettings } from '@/features/auth/ui/auth-settings';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

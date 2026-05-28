@@ -2,15 +2,10 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import Box from '@mui/material/Box';
-import { Skeleton } from '@mui/material';
 import { useTheme } from '@/hooks/useTheme';
-import { amchartsConfig } from './config';
-
-type ChartType = 'xy' | 'pie' | 'radar';
 
 interface ChartWrapperProps {
   id: string;
-  type?: ChartType;
   height?: number | string;
   createChart: (
     root: unknown,
@@ -22,13 +17,7 @@ interface ChartWrapperProps {
   className?: string;
 }
 
-export function ChartWrapper({
-  id,
-  type = 'xy',
-  height = 400,
-  createChart,
-  className,
-}: ChartWrapperProps) {
+export function ChartWrapper({ id, height = 400, createChart, className }: ChartWrapperProps) {
   const chartRef = useRef<unknown>(null);
   const { resolvedMode } = useTheme();
 
@@ -39,13 +28,16 @@ export function ChartWrapper({
     const am5percent = await import('@amcharts/amcharts5/percent');
     const am5themes_Animated = await import('@amcharts/amcharts5/themes/Animated');
 
+    const mountElement = document.getElementById(id);
+    if (!mountElement) return;
+
     // Dispose previous chart
     if (chartRef.current) {
       (chartRef.current as { dispose: () => void }).dispose();
     }
 
     // Create root
-    const root = am5.Root.new(id);
+    const root = am5.Root.new(mountElement);
 
     // Set theme
     root.setThemes([am5themes_Animated.default.new(root)]);

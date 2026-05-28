@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans, IBM_Plex_Sans_Thai } from 'next/font/google';
+import { cookies } from 'next/headers';
+import Script from 'next/script';
 import '@/styles/globals.css';
 import { AppProviders } from '@/providers/AppProviders';
+import type { ThemeMode } from '@/types';
 
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -30,32 +33,43 @@ export const metadata: Metadata = {
   },
 };
 
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+function getInitialThemeFromCookie(mode: string | undefined): ThemeMode {
+  if (mode === 'light' || mode === 'dark' || mode === 'system') return mode;
+  return 'system';
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const initialThemeMode = getInitialThemeFromCookie(cookieStore.get('theme-mode')?.value);
+  const initialResolvedMode = initialThemeMode === 'dark' ? 'dark' : 'light';
+
   return (
-    <html lang="th" suppressHydrationWarning>
-      <head>
-        {/* Blocking script: sets dark/light class before React hydrates — prevents flash & mismatch */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var mode = localStorage.getItem('theme-mode') || 'system';
-                  var resolved = mode === 'dark' ? 'dark'
-                    : mode === 'light' ? 'light'
-                    : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  document.documentElement.classList.add(resolved);
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="th" className={initialResolvedMode} suppressHydrationWarning>
       <body className={`${ibmPlexSansThai.variable} ${ibmPlexSans.variable} antialiased`}>
+        <Script id="recover-from-404-back" strategy="beforeInteractive">
+          {`
+            (function () {
+              try {
+                window.addEventListener('pageshow', function (event) {
+                  var navEntries = performance.getEntriesByType('navigation');
+                  var navType = navEntries && navEntries[0] ? navEntries[0].type : '';
+                  var isBackForward = event.persisted || navType === 'back_forward';
+                  if (!isBackForward) return;
+                  window.location.reload();
+                });
+              } catch (e) {}
+            })();
+          `}
+        </Script>
         <AppRouterCacheProvider>
-          <AppProviders>{children}</AppProviders>
+          <AppProviders
+            initialThemeMode={initialThemeMode}
+            initialResolvedMode={initialResolvedMode}
+          >
+            {children}
+          </AppProviders>
         </AppRouterCacheProvider>
       </body>
     </html>

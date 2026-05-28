@@ -1,9 +1,9 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { Navbar } from '@/components/layout/Navbar';
-import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
+import { Sidebar } from '@/widgets/dashboard-shell/ui/sidebar';
+import { Navbar } from '@/widgets/dashboard-shell/ui/navbar';
+import { ErrorBoundary } from '@/widgets/feedback/error-boundary';
 import { useThemeMode } from '@/hooks/useThemeMode';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
