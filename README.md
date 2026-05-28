@@ -19,6 +19,9 @@ npm run build
 npm run start
 npm run lint
 npm run typecheck
+npm run test
+npm run test:unit
+npm run test:e2e
 npm run storybook
 npm run build-storybook
 npm run storybook:test

@@ -1,6 +1,6 @@
 const DEFAULT_API_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://shop-api.nighttt.site/api'
+    ? process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
     : 'http://localhost:4000/api';
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';

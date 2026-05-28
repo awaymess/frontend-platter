@@ -3,7 +3,7 @@ export const siteConfig = {
   description: 'A modern frontend boilerplate built with Next.js',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api',
   },
   locale: {
     default: 'th' as const,
