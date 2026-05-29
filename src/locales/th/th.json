@@ -1,0 +1,87 @@
+{
+  "login": {
+    "title": "เข้าสู่ระบบ",
+    "subtitle": "ลงชื่อเข้าใช้บัญชีของคุณ",
+    "email": "อีเมล",
+    "emailPlaceholder": "กรอกอีเมล",
+    "password": "รหัสผ่าน",
+    "passwordPlaceholder": "กรอกรหัสผ่าน",
+    "rememberMe": "จดจำฉัน",
+    "forgotPassword": "ลืมรหัสผ่าน?",
+    "submit": "เข้าสู่ระบบ",
+    "noAccount": "ยังไม่มีบัญชี?",
+    "register": "สมัครสมาชิก"
+  },
+  "errors": {
+    "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
+    "passwordRequired": "กรุณากรอกรหัสผ่าน",
+    "passwordMinLength": "รหัสผ่านต้องมีอย่างน้อย {min} ตัวอักษร",
+    "loginFailed": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+    "sessionExpired": "เซสชั่นหมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง"
+  },
+  "logout": {
+    "title": "ออกจากระบบ",
+    "confirm": "คุณต้องการออกจากระบบหรือไม่?"
+  },
+  "app": {
+    "name": "Frontend Platter",
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด",
+    "notFound": "ไม่พบหน้าที่ค้นหา",
+    "goBack": "กลับ",
+    "goHome": "กลับหน้าหลัก"
+  },
+  "nav": {
+    "dashboard": "แดชบอร์ด",
+    "charts": "กราฟ",
+    "tables": "ตาราง",
+    "settings": "ตั้งค่า"
+  },
+  "actions": {
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "delete": "ลบ",
+    "edit": "แก้ไข",
+    "create": "สร้าง",
+    "search": "ค้นหา",
+    "filter": "กรอง",
+    "export": "ส่งออก",
+    "import": "นำเข้า",
+    "confirm": "ยืนยัน",
+    "submit": "ส่ง",
+    "reset": "รีเซ็ต",
+    "close": "ปิด",
+    "retry": "ลองอีกครั้ง"
+  },
+  "table": {
+    "noData": "ไม่พบข้อมูล",
+    "rowsPerPage": "แถวต่อหน้า",
+    "showing": "แสดง {from} ถึง {to} จาก {total} รายการ",
+    "page": "หน้า {page} จาก {totalPages}"
+  },
+  "theme": {
+    "light": "โหมดสว่าง",
+    "dark": "โหมดมืด",
+    "system": "ตามระบบ",
+    "toggle": "สลับธีม"
+  },
+  "language": {
+    "th": "ไทย",
+    "en": "English",
+    "switch": "เปลี่ยนภาษา"
+  },
+  "title": "แดชบอร์ด",
+  "welcome": "สวัสดี, {name}",
+  "overview": "ภาพรวม",
+  "stats": {
+    "totalUsers": "ผู้ใช้ทั้งหมด",
+    "totalRevenue": "รายได้ทั้งหมด",
+    "totalOrders": "คำสั่งซื้อทั้งหมด",
+    "growthRate": "อัตราการเติบโต"
+  },
+  "charts": {
+    "revenue": "รายได้รายเดือน",
+    "users": "ผู้ใช้ใหม่"
+  },
+  "recentActivity": "กิจกรรมล่าสุด"
+}
