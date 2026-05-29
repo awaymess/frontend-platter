@@ -1,11 +1,10 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Card, CardContent } from '@awaymess/ui';
+import { Card, Button } from '@awaymess/ui';
 import { useTheme } from '@/hooks/useTheme';
-import { Button } from '@awaymess/ui';
+import { useTranslations } from '@/i18n/useTranslations';
 import { Sun, Moon, Monitor } from 'lucide-react';
 import type { ThemeMode } from '@/types';
 
@@ -20,65 +19,39 @@ export default function SettingsPage() {
   ];
 
   return (
-    <Box sx={{ maxWidth: 800 }}>
-      <Typography variant="h4" sx={{ fontWeight: 800, mb: 4, letterSpacing: '-0.5px' }}>
-        {t('nav.settings')}
-      </Typography>
+    <Box sx={{ mx: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Box sx={{ mb: 1 }}>
+        <Typography variant="h5" sx={{ fontWeight: 800 }}>
+          {t('nav.settings')}
+        </Typography>
+        <Typography variant="body2" sx={{ opacity: 0.6 }}>
+          {t('settings.description')}
+        </Typography>
+      </Box>
 
       {/* Theme Settings */}
-      <Card
-        sx={{
-          borderRadius: '20px',
-          border: 'none',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
-          bgcolor: 'rgb(var(--color-bg-elevated))',
-          mb: 3,
-          overflow: 'hidden',
-        }}
-      >
-        <CardContent sx={{ p: 4 }}>
-          <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-            {t('theme.toggle')}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 4, fontSize: 15 }}>
-            Choose your preferred appearance mode
-          </Typography>
 
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {themeOptions.map((option) => {
-              const isActive = mode === option.value;
-              return (
-                <Button
-                  key={option.value}
-                  variant="outlined"
-                  onClick={() => setMode(option.value)}
-                  sx={{
-                    borderRadius: '12px',
-                    px: { xs: 2, sm: 3 },
-                    py: 1.25,
-                    textTransform: 'none',
-                    fontWeight: isActive ? 700 : 500,
-                    fontSize: '15px',
-                    minWidth: { xs: '100%', sm: 140 },
-                    display: 'flex',
-                    gap: 1.5,
-                    color: isActive ? '#fff' : 'rgb(var(--color-text-primary))',
-                    bgcolor: isActive ? '#007aff' : 'transparent',
-                    borderColor: isActive ? '#007aff' : 'rgb(var(--color-border))',
-                    '&:hover': {
-                      bgcolor: isActive ? '#0062cc' : 'rgba(0,0,0,0.04)',
-                      borderColor: isActive ? '#0062cc' : 'rgb(var(--color-text-secondary))',
-                    },
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>{option.icon}</Box>
-                  {option.label}
-                </Button>
-              );
-            })}
-          </Box>
-        </CardContent>
+      <Card>
+        <h6 style={{ fontWeight: 700, marginBottom: 1 }}>{t('theme.toggle')}</h6>
+        <p style={{ marginBottom: 4, fontSize: 15, color: 'text.secondary' }}>
+          Choose your preferred appearance mode
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+          {themeOptions.map((option) => {
+            const isActive = mode === option.value;
+            return (
+              <Button
+                key={option.value}
+                variant="outlined"
+                onClick={() => setMode(option.value)}
+                color={isActive ? 'primary' : 'inherit'}
+                startIcon={option.icon}
+              >
+                {option.label}
+              </Button>
+            );
+          })}
+        </div>
       </Card>
     </Box>
   );

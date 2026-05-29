@@ -259,7 +259,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ mx: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box sx={{ mb: 1 }}>
         <Typography variant="h5" sx={{ fontWeight: 800 }}>
           ภาพรวมร้านค้า
@@ -293,11 +293,6 @@ export default function DashboardPage() {
                   gap: 2,
                   height: '100%',
                   p: 2,
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: 'var(--shadow-md)',
-                  },
                 }}
               >
                 <Box
@@ -364,7 +359,7 @@ export default function DashboardPage() {
         sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(4, 1fr)' }, gap: 2 }}
       >
         <Box component={Link} href="/expenses" sx={{ color: 'inherit', textDecoration: 'none' }}>
-          <Card sx={{ height: '100%', p: 2, '&:hover': { bgcolor: 'action.hover' } }}>
+          <Card sx={{ height: '100%', p: 2 }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 1 }}>
               <Receipt size={20} color="#f59e0b" />
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
@@ -377,7 +372,7 @@ export default function DashboardPage() {
           </Card>
         </Box>
         <Box component={Link} href="/bales" sx={{ color: 'inherit', textDecoration: 'none' }}>
-          <Card sx={{ height: '100%', p: 2, '&:hover': { bgcolor: 'action.hover' } }}>
+          <Card sx={{ height: '100%', p: 2 }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 1 }}>
               <PackageOpen size={20} color="#ec4899" />
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
@@ -393,7 +388,7 @@ export default function DashboardPage() {
           </Card>
         </Box>
         <Box component={Link} href="/reports" sx={{ color: 'inherit', textDecoration: 'none' }}>
-          <Card sx={{ height: '100%', p: 2, '&:hover': { bgcolor: 'action.hover' } }}>
+          <Card sx={{ height: '100%', p: 2 }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 1 }}>
               <DollarSign size={20} color="#ef4444" />
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
@@ -410,7 +405,7 @@ export default function DashboardPage() {
           </Card>
         </Box>
         <Box component={Link} href="/orders" sx={{ color: 'inherit', textDecoration: 'none' }}>
-          <Card sx={{ height: '100%', p: 2, '&:hover': { bgcolor: 'action.hover' } }}>
+          <Card sx={{ height: '100%', p: 2 }}>
             <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center', mb: 2 }}>
               <Truck size={20} color="#6366f1" />
               <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>

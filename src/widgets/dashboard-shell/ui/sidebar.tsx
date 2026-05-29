@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from '@/i18n/useTranslations';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -20,11 +20,17 @@ import { mainNavItems } from '@/config/navigation';
 import { Link, useRouter } from '@/i18n/navigation';
 import { Sun, Moon, LogOut, Menu, Monitor, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
+import { IconButton } from '@awaymess/ui';
 
 const SIDEBAR_WIDTH = 260;
 const SIDEBAR_COLLAPSED_WIDTH = 72;
 
 const sidebarBackground = (mode: string) => (mode === 'dark' ? '#14141e' : '#ffffff');
+const themeModes = [
+  { value: 'light' as const, icon: Sun, labelKey: 'theme.light' },
+  { value: 'dark' as const, icon: Moon, labelKey: 'theme.dark' },
+  { value: 'system' as const, icon: Monitor, labelKey: 'theme.system' },
+];
 
 export function Sidebar() {
   const t = useTranslations();
@@ -197,102 +203,82 @@ export function Sidebar() {
           background: sidebarBackground(resolvedMode),
         }}
       >
-        {/* Theme Toggle Pill */}
+        {/* Theme Switcher */}
         {!sidebarCollapsed || isMobileLayout ? (
           <Box
             sx={{
+              mb: 0.8,
+              px: 0.2,
               display: 'flex',
               alignItems: 'center',
-              gap: 0.5,
-              mb: 1,
-              p: 0.5,
-              borderRadius: '12px',
-              background: resolvedMode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
+              justifyContent: 'space-between',
+              gap: 0.6,
             }}
           >
-            {[
-              { value: 'light' as const, icon: Sun, label: 'สว่าง' },
-              { value: 'dark' as const, icon: Moon, label: 'มืด' },
-              { value: 'system' as const, icon: Monitor, label: 'Auto' },
-            ].map(({ value, icon: Icon, label }) => {
-              const isActive = mode === value;
-              return (
-                <Box
-                  key={value}
-                  onClick={() => setMode(value)}
-                  sx={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 0.5,
-                    py: 0.75,
-                    px: 1,
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    background: isActive
-                      ? resolvedMode === 'dark'
-                        ? 'rgba(99,102,241,0.25)'
-                        : 'rgba(99,102,241,0.12)'
-                      : 'transparent',
-                    color: isActive ? '#6366f1' : resolvedMode === 'dark' ? '#a1a1aa' : '#71717a',
-                    '&:hover': {
-                      background: isActive
-                        ? undefined
-                        : resolvedMode === 'dark'
-                          ? 'rgba(255,255,255,0.06)'
-                          : 'rgba(0,0,0,0.04)',
-                    },
-                  }}
-                >
-                  <Icon size={14} />
-                  <Typography
-                    sx={{ fontSize: 11, fontWeight: isActive ? 700 : 500, lineHeight: 1 }}
+            <Typography
+              sx={{
+                fontSize: 10,
+                fontWeight: 600,
+                opacity: 0.7,
+                lineHeight: 1,
+              }}
+            >
+              {t('theme.toggle')}
+            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 0.3,
+              }}
+            >
+              {themeModes.map(({ value, icon: Icon, labelKey }) => {
+                const isActive = mode === value;
+                return (
+                  <IconButton
+                    key={value}
+                    aria-label={t(labelKey)}
+                    color={isActive ? 'secondary' : 'default'}
+                    aria-pressed={isActive}
+                    onClick={() => setMode(value)}
+                    sx={{
+                      border: `1px solid ${isActive ? 'rgba(99,102,241,0.45)' : 'transparent'}`,
+                      background: isActive ? 'rgba(99,102,241,0.12)' : 'transparent',
+                      transition: 'all 0.2s ease',
+                    }}
                   >
-                    {label}
-                  </Typography>
-                </Box>
-              );
-            })}
+                    <Icon size={14} />
+                  </IconButton>
+                );
+              })}
+            </Box>
           </Box>
         ) : (
           <Box
-            sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mb: 1, alignItems: 'center' }}
+            sx={{
+              display: 'grid',
+              gap: 0.35,
+              mb: 0.8,
+              justifyItems: 'center',
+            }}
           >
-            {[
-              { value: 'light' as const, icon: Sun },
-              { value: 'dark' as const, icon: Moon },
-              { value: 'system' as const, icon: Monitor },
-            ].map(({ value, icon: Icon }) => {
+            {themeModes.map(({ value, icon: Icon, labelKey }) => {
               const isActive = mode === value;
               return (
-                <Box
+                <IconButton
                   key={value}
+                  aria-label={t(labelKey)}
+                  color={isActive ? 'secondary' : 'default'}
+                  aria-pressed={isActive}
                   onClick={() => setMode(value)}
                   sx={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    background: isActive
-                      ? resolvedMode === 'dark'
-                        ? 'rgba(99,102,241,0.25)'
-                        : 'rgba(99,102,241,0.12)'
-                      : 'transparent',
-                    color: isActive ? '#6366f1' : resolvedMode === 'dark' ? '#a1a1aa' : '#71717a',
-                    '&:hover': {
-                      background:
-                        resolvedMode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)',
-                    },
+                    border: `1px solid ${isActive ? 'rgba(99,102,241,0.45)' : 'transparent'}`,
+                    background: isActive ? 'rgba(99,102,241,0.12)' : 'transparent',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <Icon size={16} />
-                </Box>
+                  <Icon size={14} />
+                </IconButton>
               );
             })}
           </Box>
@@ -319,7 +305,11 @@ export function Sidebar() {
           </ListItemIcon>
           {(!sidebarCollapsed || isMobileLayout) && (
             <ListItemText
-              primary={<Typography sx={{ fontSize: 13, fontWeight: 600 }}>ออกจากระบบ</Typography>}
+              primary={
+                <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
+                  {t('auth.logout.title')}
+                </Typography>
+              }
             />
           )}
         </ListItemButton>

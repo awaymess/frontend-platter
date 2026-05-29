@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useLocale } from 'next-intl';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,6 +15,7 @@ import { IconButton } from '@awaymess/ui';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
+import { useTranslations } from '@/i18n/useTranslations';
 
 export function AuthSettings() {
   const t = useTranslations();
