@@ -127,12 +127,6 @@ export function Sidebar() {
             >
               {t('app.name')}
             </Typography>
-            <Typography
-              variant="caption"
-              sx={{ opacity: 0.45, fontSize: 11, whiteSpace: 'nowrap' }}
-            >
-              Boilerplate
-            </Typography>
           </Box>
         )}
       </Box>
@@ -306,9 +300,7 @@ export function Sidebar() {
           {(!sidebarCollapsed || isMobileLayout) && (
             <ListItemText
               primary={
-                <Typography sx={{ fontSize: 13, fontWeight: 600 }}>
-                  {t('auth.logout.title')}
-                </Typography>
+                <Typography sx={{ fontSize: 13, fontWeight: 600 }}>{t('logout.title')}</Typography>
               }
             />
           )}

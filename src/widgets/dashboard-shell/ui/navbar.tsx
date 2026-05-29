@@ -192,7 +192,7 @@ export function Navbar() {
                 }}
               >
                 <LogOut size={16} />
-                {t('auth.logout.title')}
+                {t('logout.title')}
               </MenuItem>
             </Box>
           </Menu>
