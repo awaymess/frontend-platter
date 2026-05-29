@@ -14,6 +14,13 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export interface LoginResponse {
   user: User;
   // Note: tokens are set via httpOnly cookies by the backend

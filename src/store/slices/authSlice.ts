@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit';
-import type { User, LoginRequest } from '@/types/auth';
+import type { User, LoginRequest, RegisterRequest } from '@/types/auth';
 import axios from 'axios';
 
 interface AuthState {
@@ -84,6 +84,79 @@ export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValu
   }
 });
 
+export const register = createAsyncThunk(
+  'auth/register',
+  async (payload: RegisterRequest, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/api/auth/register', payload);
+      return response.data.data;
+    } catch (error: unknown) {
+      const err = error as {
+        code?: string;
+        message?: string;
+        response?: { data?: { message?: string } };
+      };
+
+      const isDev = process.env.NODE_ENV === 'development';
+      const isLocalhost = process.env.NEXT_PUBLIC_API_URL?.includes('localhost');
+      const isNetworkError =
+        err.code === 'ERR_NETWORK' || err.message === 'Network Error' || !err.response;
+
+      if (isDev && isLocalhost && isNetworkError) {
+        console.warn(
+          'Backend server is not running or unreachable. Falling back to Mock Register.'
+        );
+        if (typeof window !== 'undefined') {
+          document.cookie = `access_token=mock-token; path=/; max-age=86400`;
+        }
+        return {
+          id: '1',
+          email: payload.email,
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          role: 'user' as const,
+        };
+      }
+
+      return rejectWithValue(err.response?.data?.message || 'Register failed');
+    }
+  }
+);
+
+export const loginWithGoogle = createAsyncThunk(
+  'auth/loginWithGoogle',
+  async (_, { rejectWithValue }) => {
+    try {
+      const isDev = process.env.NODE_ENV === 'development';
+      const isLocalhost = process.env.NEXT_PUBLIC_API_URL?.includes('localhost');
+
+      if (isDev && isLocalhost) {
+        if (typeof window !== 'undefined') {
+          document.cookie = `access_token=mock-token; path=/; max-age=86400`;
+        }
+        return {
+          id: '1',
+          email: 'google.demo@example.com',
+          firstName: 'Google',
+          lastName: 'User',
+          role: 'user' as const,
+        };
+      }
+
+      if (typeof window !== 'undefined') {
+        window.location.href = '/api/auth/google';
+      }
+
+      return rejectWithValue('Redirecting to Google login');
+    } catch (error: unknown) {
+      const err = error as {
+        response?: { data?: { message?: string } };
+      };
+      return rejectWithValue(err.response?.data?.message || 'Google login failed');
+    }
+  }
+);
+
 export const fetchCurrentUser = createAsyncThunk(
   'auth/fetchCurrentUser',
   async (_, { rejectWithValue }) => {
@@ -149,6 +222,37 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
+      })
+      // Register
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      // Login with Google
+      .addCase(loginWithGoogle.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.isLoading = false;
+        // avoid showing an error when we intentionally redirect
+        if (action.payload !== 'Redirecting to Google login') {
+          state.error = action.payload as string;
+        }
       })
       // Logout
       .addCase(logout.fulfilled, (state) => {

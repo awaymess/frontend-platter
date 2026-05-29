@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans, IBM_Plex_Sans_Thai } from 'next/font/google';
 import { cookies } from 'next/headers';
-import Script from 'next/script';
 import '@/styles/globals.css';
 import { AppProviders } from '@/providers/AppProviders';
+import { RecoverFrom404Back } from '@/providers/RecoverFrom404Back';
 import type { ThemeMode } from '@/types';
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -48,21 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="th" className={initialResolvedMode} suppressHydrationWarning>
       <body className={`${ibmPlexSansThai.variable} ${ibmPlexSans.variable} antialiased`}>
-        <Script id="recover-from-404-back" strategy="beforeInteractive">
-          {`
-            (function () {
-              try {
-                window.addEventListener('pageshow', function (event) {
-                  var navEntries = performance.getEntriesByType('navigation');
-                  var navType = navEntries && navEntries[0] ? navEntries[0].type : '';
-                  var isBackForward = event.persisted || navType === 'back_forward';
-                  if (!isBackForward) return;
-                  window.location.reload();
-                });
-              } catch (e) {}
-            })();
-          `}
-        </Script>
+        <RecoverFrom404Back />
         <AppRouterCacheProvider>
           <AppProviders
             initialThemeMode={initialThemeMode}
