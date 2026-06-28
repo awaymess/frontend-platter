@@ -37,6 +37,10 @@ const fallbackEnvs = getEnvExampleFallback();
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Pin the file-tracing root to this project so `output: 'standalone'`
+  // emits .next/standalone/server.js at the root regardless of any parent
+  // lockfiles (e.g. when checked out inside another repo / git worktree).
+  outputFileTracingRoot: __dirname,
   env: fallbackEnvs,
 };
 
