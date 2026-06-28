@@ -21,10 +21,8 @@ npm run lint
 npm run typecheck
 npm run test
 npm run test:unit
-npm run test:e2e
 npm run storybook
 npm run build-storybook
-npm run storybook:test
 ```
 
 ## Senior FE Structure
@@ -78,6 +76,11 @@ For a new feature:
 - Clear separation between route orchestration and business UI.
 - Lower coupling and easier ownership per feature team.
 - Safe growth path without file chaos.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every pull request and on push to `main`:
+`lint` → `typecheck` → unit tests → `build` (GitHub-hosted, ~a few minutes).
 
 ## Deployment
 
