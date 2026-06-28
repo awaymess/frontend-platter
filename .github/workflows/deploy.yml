@@ -6,6 +6,11 @@ on:
 
 jobs:
   deploy:
+    # Only runs on projects that opt in by setting the repo variable
+    # DEPLOY_ENABLED=true (plus a self-hosted runner + WEBHOOK_SECRET).
+    # The platter repo leaves it unset, so this job is skipped and never
+    # queues waiting for a runner. See README "Deployment".
+    if: vars.DEPLOY_ENABLED == 'true'
     runs-on: self-hosted
     steps:
       - name: Trigger deploy webhook

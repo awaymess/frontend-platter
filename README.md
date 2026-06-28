@@ -100,9 +100,12 @@ on push to `main`, on a self-hosted runner).
 4. **Server side** — register a self-hosted runner for the repo (personal-
    account runners are per-repo), add the `WEBHOOK_SECRET` GitHub secret, and
    make sure the platform knows the `/webhooks/deploy/<repo>` route.
+5. **Enable deploy** — set the repo variable `DEPLOY_ENABLED=true`
+   (Settings → Secrets and variables → Actions → Variables). Until then the
+   deploy job is skipped, so it never queues waiting for a runner.
 
-> The platter repo itself does not deploy — `deploy.yml` only does something on
-> a real project with a runner + webhook configured.
+> The platter repo itself does not deploy: `DEPLOY_ENABLED` is unset, so the
+> `deploy.yml` job is skipped on every push to `main`.
 
 ## Storybook Coverage
 
