@@ -10,8 +10,6 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest --project unit run",
     "test:unit": "vitest --project unit run",
-    "test:e2e": "node tests/e2e/smoke.e2e.mjs",
-    "test:smoke": "npm run test:e2e",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

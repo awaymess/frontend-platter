@@ -21,7 +21,6 @@ npm run lint
 npm run typecheck
 npm run test
 npm run test:unit
-npm run test:e2e
 npm run storybook
 npm run build-storybook
 npm run storybook:test
@@ -83,9 +82,6 @@ For a new feature:
 
 `.github/workflows/ci.yml` runs on every pull request and on push to `main`:
 `lint` → `typecheck` → unit tests → `build` (GitHub-hosted, ~a few minutes).
-
-The Playwright e2e smoke (`npm run test:e2e`) is intentionally **not** in CI to
-keep it fast — run it locally when you touch routing/auth flows.
 
 ## Deployment
 
