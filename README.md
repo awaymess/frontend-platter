@@ -23,7 +23,6 @@ npm run test
 npm run test:unit
 npm run storybook
 npm run build-storybook
-npm run storybook:test
 ```
 
 ## Senior FE Structure
