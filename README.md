@@ -79,6 +79,31 @@ For a new feature:
 - Lower coupling and easier ownership per feature team.
 - Safe growth path without file chaos.
 
+## Deployment
+
+This is a **starter platter** — the deploy config ships with safe `localhost`
+defaults that build and run as-is. It targets a self-hosted server that builds
+the repo with Docker behind Traefik, triggered by a deploy webhook.
+
+Files: `Dockerfile` (Next standalone image), `docker-compose.yml` (Traefik
+labels), `.github/workflows/deploy.yml` (POSTs to the platform deploy webhook
+on push to `main`, on a self-hosted runner).
+
+### When you clone this into a real project
+
+1. **`docker-compose.yml`** — rename the service, `container_name`, the two
+   Traefik router/service names, and set the real `Host(...)` domain + the
+   `NEXT_PUBLIC_*` build args.
+2. **`Dockerfile`** — (optional) update the `ARG NEXT_PUBLIC_*` defaults.
+3. **`deploy.yml`** — no edit needed: the webhook slug is derived from the repo
+   name via `${{ github.event.repository.name }}`.
+4. **Server side** — register a self-hosted runner for the repo (personal-
+   account runners are per-repo), add the `WEBHOOK_SECRET` GitHub secret, and
+   make sure the platform knows the `/webhooks/deploy/<repo>` route.
+
+> The platter repo itself does not deploy — `deploy.yml` only does something on
+> a real project with a runner + webhook configured.
+
 ## Storybook Coverage
 
 The scaffold includes Storybook docs/stories for:

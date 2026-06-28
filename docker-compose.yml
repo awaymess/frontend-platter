@@ -1,11 +1,15 @@
+# Platter default: works as-is for local builds.
+# When cloning into a real project, rename the service/slug and set the real
+# domain + API URLs (see README "Deployment"). The deploy slug is otherwise
+# derived from the repo name by .github/workflows/deploy.yml.
 services:
   frontend-platter:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: https://frontend-platter-api.nighttt.site/api
-        NEXT_PUBLIC_SOCKET_URL: https://frontend-platter-api.nighttt.site
+        NEXT_PUBLIC_API_URL: http://localhost:4000/api
+        NEXT_PUBLIC_SOCKET_URL: http://localhost:4000
     container_name: frontend-platter
     restart: unless-stopped
     mem_limit: 512m
@@ -17,7 +21,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      - traefik.http.routers.frontend-platter-app.rule=Host(`frontend-platter.nighttt.site`) || Host(`frontend-platter.localhost`)
+      - traefik.http.routers.frontend-platter-app.rule=Host(`frontend-platter.localhost`)
       - traefik.http.services.frontend-platter-app.loadbalancer.server.port=3000
 
 networks:

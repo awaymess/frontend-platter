@@ -14,4 +14,4 @@ jobs:
             -H "Content-Type: application/json" \
             -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET }}" \
             -d '{"ref": "refs/heads/main"}' \
-            "http://platform-api.localhost/webhooks/deploy/frontend-platter"
+            "http://platform-api.localhost/webhooks/deploy/${{ github.event.repository.name }}"
