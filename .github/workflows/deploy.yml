@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Trigger deploy webhook
+        run: |
+          curl -sf -X POST \
+            -H "Content-Type: application/json" \
+            -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET }}" \
+            -d '{"ref": "refs/heads/main"}' \
+            "http://platform-api.localhost/webhooks/deploy/frontend-platter"
