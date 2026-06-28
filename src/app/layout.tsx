@@ -26,11 +26,7 @@ export const metadata: Metadata = {
     template: '%s | Frontend Platter',
   },
   description: 'A modern frontend boilerplate built with Next.js, TypeScript, and MUI',
-  icons: {
-    icon: '/file.svg',
-    shortcut: '/file.svg',
-    apple: '/file.svg',
-  },
+  // Favicon is provided by the file convention at src/app/favicon.ico.
 };
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
